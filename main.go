@@ -22,7 +22,7 @@ func main() {
 
 	// New Service
 	service := micro.NewService(
-		micro.Name("go.micro.srv.v1.goods"),
+		micro.Name("go.micro.api.goods"),
 		micro.Version("latest"),
 		micro.RegisterTTL(time.Second*30),
 		micro.RegisterInterval(time.Second*15),
