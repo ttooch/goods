@@ -13,8 +13,8 @@ var (
 )
 
 const (
-	goodsRpc   = "go.micro.srv.v1.goods"
-	goodsTopic = "topic.go.micro.srv.goods"
+	goodsRpc   = "go.micro.api.v1.goods"
+	goodsTopic = "topic.go.micro.api.v1.goods"
 )
 
 func InitService(service micro.Service) {

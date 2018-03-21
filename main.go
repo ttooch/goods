@@ -15,14 +15,14 @@ import (
 )
 
 var (
-	topic = "topic.go.micro.srv.goods"
+	topic = "topic.go.micro.api.v1.goods"
 )
 
 func main() {
 
 	// New Service
 	service := micro.NewService(
-		micro.Name("go.micro.api.goods"),
+		micro.Name("go.micro.api.v1.goods"),
 		micro.Version("latest"),
 		micro.RegisterTTL(time.Second*30),
 		micro.RegisterInterval(time.Second*15),
