@@ -16,7 +16,7 @@ go get -u github.com/micro/micro
 Or via Docker
 
 ```shell
-docker pull udian/micro
+docker pull ttouch/micro
 ```
 
 
