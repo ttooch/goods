@@ -5,9 +5,9 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/micro/go-log"
-	"udian.me/goods/model"
-	"udian.me/goods/service"
-	goods "udian.me/proto/goods"
+	"github.com/ttooch/goods/service"
+	goods "github.com/ttooch/proto/goods"
+	"github.com/ttooch/goods/model"
 )
 
 type Goods struct{}

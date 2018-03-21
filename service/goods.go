@@ -5,7 +5,7 @@ import (
 	"github.com/micro/examples/pubsub/srv/proto"
 	"github.com/pborman/uuid"
 	"time"
-	goods "udian.me/proto/goods"
+	goods "github.com/ttooch/proto/goods"
 )
 
 func GoodsDetail() {
