@@ -37,7 +37,7 @@ $ docker pull quay.io/coreos/etcd //下载etcd docker镜像
     --volume=/tmp/etcd-data.tmp:/etcd-data \
     --restart=always \
     quay.io/coreos/etcd \
-    /usr/local/bin/etcd \
+    etcd \
     --name etcd0 \
     --data-dir /etcd-data \
     --listen-client-urls http://0.0.0.0:2379 \
