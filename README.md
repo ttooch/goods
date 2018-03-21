@@ -76,7 +76,7 @@ docker build -t ttouch/goods .
 ```
 run in docker 
 ```
-docker run --link etcd --link nsqd -p 50051:50051 --name=goods -e MICRO_SERVER_ADDRESS=:50051 -e MICRO_REGISTRY=etcd -e MICRO_REGISTRY_ADDRESS=http://etcd:2379 -e MICRO_BROKER=nsq -e MICRO_BROKER_ADDRESS=nsqd:4150  ttouch/goods
+docker run -d --link=etcd --name micro -p 8080:8080 -e MICRO_REGISTRY=etcd -e MICRO_REGISTRY_ADDRESS=http://etcd:2379 ttouch/micro api --handler=rpc
 ```
 
 ### Run the micro api
