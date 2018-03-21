@@ -10,7 +10,7 @@ This is the Goods service with fqdn go.micro.srv.v1.goods.
 ## Install Micro
 
 ```shell
-go get -u github.com/micro/micro
+go get -u github.com/ttouch/micro
 ```
 
 Or via Docker
@@ -53,7 +53,7 @@ $
 1.下载nsq docker镜像
     docker pull nsqio/nsq 
 2.启动nsqlookupd
-    docker run -d --link nsqd --name lookupd -p 4160:4160 -p 4161:4161 --restart=always nsqio/nsq /nsqlookupd  
+    docker run -d --name lookupd -p 4160:4160 -p 4161:4161 --restart=always nsqio/nsq /nsqlookupd  
 3.启动nsqd
     docker run -d --link lookupd --name nsqd -p 4150:4150 -p 4151:4151 --restart=always nsqio/nsq /nsqd --lookupd-tcp-address=lookupd:4160
 4.启动nsqadmin
