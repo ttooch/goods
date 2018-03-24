@@ -10,7 +10,7 @@ import (
 	"github.com/ttooch/goods/subscriber"
 	_ "github.com/micro/go-plugins/broker/nsq"
 	_ "github.com/micro/go-plugins/registry/etcd"
-	goods "github.com/ttooch/proto/goods"
+	goodsService "github.com/ttooch/proto/goods"
 )
 
 var (
@@ -32,7 +32,7 @@ func main() {
 
 
 	// Register Handler
-	goods.RegisterGoodsHandler(service.Server(), new(handler.Goods))
+	goodsService.RegisterGoodsServiceHandler(service.Server(), new(handler.GoodsHandler))
 
 	micro.RegisterSubscriber(topic, service.Server(), new(subscriber.Goods), server.SubscriberQueue("consumer"))
 

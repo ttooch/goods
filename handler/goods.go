@@ -4,48 +4,40 @@ import (
 	"context"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	//"github.com/micro/go-log"
-	//"github.com/ttooch/goods/service"
+	"github.com/micro/go-log"
 	goods "github.com/ttooch/proto/goods"
-	//"github.com/ttooch/goods/model"
-	//"os/user"
-	//"github.com/ttooch/goods/model"
+	"github.com/ttooch/goods/model"
 )
 
 type Goods struct{}
 
-func (e *Goods) Detail(ctx context.Context, req *goods.Request, rsp *goods.Response) error {
-	//log.Log("Received Goods.Detail request")
+func (e *Goods) Detail(ctx context.Context, req *goods.DetailRequest, rsp *goods.DetailResponse) error {
+	log.Log("Received Goods.Detail request")
+
+	//goodsModel := new(model.Goods)
+
+	//goodsModel.GetGoodsByPk()
+
+	goodsModel := model.GetGoodsByPk()
+
+	fmt.Println(*goodsModel)
+
+	rpcGoods := new(goods.Good)
+
+	DeepCopy(goodsModel,rpcGoods)
+
+ 	rsp.Data = rpcGoods
+
 	//ads := model.GetAdsForPage(1, 20)
-
+	//
 	//rpcAds := make([]*goods.Ads, 0, 20)
-
+	//
 	//DeepCopy(ads, &rpcAds)
-
+	//
 	//rsp.Data = rpcAds
-
-	rsp.Msg = "goodsDetail"
-
-	//personDB := make(map[string]goods.Response)
-
-	//var person = goods.Response{123, "msg", "bbb"}
-	//ads := goods.Ads{1,"2","2","2","2",3,3}
-	ad := goods.Ads{1,"2","2","2","2",3,3}
-
-	rsp.Status = 1
-
-	ads  := make([]*goods.Ads, 0)
-
-	ads = append(ads, &ad)
-
-	fmt.Println(ad)
-
-	fmt.Println(&ad)
-
-	fmt.Println(*&ad)
-
-	rsp.Data = ads
-
+	//
+	//rsp.Msg = "goodsDetail"
+	//
 	//fmt.Println("111")
 	//
 	//go service.PubGoods()
@@ -55,15 +47,20 @@ func (e *Goods) Detail(ctx context.Context, req *goods.Request, rsp *goods.Respo
 	//go service.PubGoods()
 	//
 	//fmt.Println("PubGoods2")
-
-	//var m1 map[string]int32
 	//
-	//m1 = make(map[string]int32)
-	//
-	//m1["a"] = 12312
-	//m1["b"] = 565464
+	//fmt.Println("2222")
+	return nil
+}
+func (e *Goods) List(ctx context.Context, req *goods.ListRequest, rsp *goods.ListResponse) error {
 
-	fmt.Println(ads)
+	goodsList := model.GetGoodsForPage(1,20)
+
+	rpcGoodsList := make([]*goods.Good, 0, 20)
+
+	DeepCopy(goodsList,&rpcGoodsList)
+
+	rsp.Data = rpcGoodsList
 
 	return nil
+
 }
