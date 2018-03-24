@@ -2,16 +2,15 @@ package main
 
 import (
 	"log"
-
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/server"
 	"time"
 	"github.com/ttooch/goods/handler"
 	myService "github.com/ttooch/goods/service"
 	"github.com/ttooch/goods/subscriber"
-	goods "github.com/ttooch/proto/goods"
 	_ "github.com/micro/go-plugins/broker/nsq"
 	_ "github.com/micro/go-plugins/registry/etcd"
+	goods "github.com/ttooch/proto/goods"
 )
 
 var (
@@ -30,6 +29,7 @@ func main() {
 
 	// di service
 	myService.InitService(service)
+
 
 	// Register Handler
 	goods.RegisterGoodsHandler(service.Server(), new(handler.Goods))
