@@ -1,10 +1,10 @@
 package subscriber
 
 import (
-	"github.com/micro/examples/pubsub/srv/proto"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro/metadata"
 	"golang.org/x/net/context"
+	"github.com/ttooch/proto/pubsub"
 )
 
 type Goods struct{}

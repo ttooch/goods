@@ -2,10 +2,10 @@ package service
 
 import (
 	"fmt"
-	"github.com/micro/examples/pubsub/srv/proto"
 	"github.com/pborman/uuid"
 	"time"
 	goods "github.com/ttooch/proto/goods"
+	"github.com/ttooch/proto/pubsub"
 )
 
 func GoodsDetail() {
