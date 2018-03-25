@@ -9,11 +9,11 @@ import (
 )
 
 func GoodsDetail() {
-	req := rpcClient.NewRequest("Goods.Detail", goodsRpc, &goods.DetailRequest{
+	req := rpcClient.NewRequest("Goods.Detail", goodsRpc, &goods.Request{
 		BarCode: "111",
 	})
 
-	rsp := &goods.DetailResponse{}
+	rsp := &goods.Response{}
 
 	// Call service
 	if err := rpcClient.Call(ctx, req, rsp); err != nil {

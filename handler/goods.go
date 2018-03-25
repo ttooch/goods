@@ -4,63 +4,27 @@ import (
 	"context"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/micro/go-log"
+	//"github.com/micro/go-log"
+	//"github.com/ttooch/goods/service"
 	goods "github.com/ttooch/proto/goods"
+	//"github.com/ttooch/goods/model"
+	//"os/user"
 	"github.com/ttooch/goods/model"
 )
 
 type Goods struct{}
 
-func (e *Goods) Detail(ctx context.Context, req *goods.DetailRequest, rsp *goods.DetailResponse) error {
-	log.Log("Received Goods.Detail request")
+func (e *Goods) Detail(ctx context.Context, req *goods.Request, rsp *goods.Response) error {
 
-	//goodsModel := new(model.Goods)
+	rpcGoods := make([]*goods.Good, 0)
 
-	//goodsModel.GetGoodsByPk()
+	ads := model.GetGoodsForPage(1, 3)
 
-	goodsModel := model.GetGoodsByPk()
+	DeepCopy(ads, &rpcGoods)
 
-	fmt.Println(*goodsModel)
+	rsp.Data = rpcGoods
 
-	rpcGoods := new(goods.Good)
-
-	DeepCopy(goodsModel,rpcGoods)
-
- 	rsp.Data = rpcGoods
-
-	//ads := model.GetAdsForPage(1, 20)
-	//
-	//rpcAds := make([]*goods.Ads, 0, 20)
-	//
-	//DeepCopy(ads, &rpcAds)
-	//
-	//rsp.Data = rpcAds
-	//
-	//rsp.Msg = "goodsDetail"
-	//
-	//fmt.Println("111")
-	//
-	//go service.PubGoods()
-	//
-	//fmt.Println("PubGoods1")
-	//
-	//go service.PubGoods()
-	//
-	//fmt.Println("PubGoods2")
-	//
-	//fmt.Println("2222")
-	return nil
-}
-func (e *Goods) List(ctx context.Context, req *goods.ListRequest, rsp *goods.ListResponse) error {
-
-	goodsList := model.GetGoodsForPage(1,20)
-
-	rpcGoodsList := make([]*goods.Good, 0, 20)
-
-	DeepCopy(goodsList,&rpcGoodsList)
-
-	rsp.Data = rpcGoodsList
+	fmt.Println(ads[0])
 
 	return nil
-
 }
