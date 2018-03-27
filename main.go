@@ -6,12 +6,12 @@ import (
 	_ "github.com/micro/go-plugins/broker/nsq"
 	_ "github.com/micro/go-plugins/registry/etcd"
 	"github.com/ttooch/goods/handlers"
+	"github.com/ttooch/goods/models"
 	myService "github.com/ttooch/goods/services"
 	"github.com/ttooch/goods/subscribers"
 	goodsService "github.com/ttooch/proto/goods"
 	"log"
 	"time"
-	"github.com/ttooch/goods/models"
 )
 
 var (
@@ -31,7 +31,7 @@ func main() {
 		}),
 	)
 
-	// di service
+	// Di service
 	myService.InitService(service)
 
 	// Register Handler
