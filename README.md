@@ -90,7 +90,7 @@ micro --registry=etcd  api --handler=rpc
 Or via Docker
 
 ```shell
-docker run -d  --link=etcd   --name micro -p 8080:8080 -e MICRO_REGISTRY=etcd -e MICRO_REGISTRY_ADDRESS=http://etcd:2379 ttouch/micro api --handler=rpc
+docker run -d  --link=etcd   --name micro -p 8080:8080 -e MICRO_REGISTRY=etcd -e MICRO_REGISTRY_ADDRESS=http://etcd:2379 --restart=always  ttouch/micro api --handler=rpc
 ```
 
 api调用

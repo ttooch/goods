@@ -1,16 +1,17 @@
 package main
 
 import (
-	"log"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/server"
-	"time"
-	"github.com/ttooch/goods/handler"
-	myService "github.com/ttooch/goods/service"
-	"github.com/ttooch/goods/subscriber"
 	_ "github.com/micro/go-plugins/broker/nsq"
 	_ "github.com/micro/go-plugins/registry/etcd"
+	"github.com/ttooch/goods/handlers"
+	myService "github.com/ttooch/goods/services"
+	"github.com/ttooch/goods/subscribers"
 	goodsService "github.com/ttooch/proto/goods"
+	"log"
+	"time"
+	"github.com/ttooch/goods/models"
 )
 
 var (
@@ -25,16 +26,18 @@ func main() {
 		micro.Version("latest"),
 		micro.RegisterTTL(time.Second*30),
 		micro.RegisterInterval(time.Second*15),
+		micro.AfterStop(func() error {
+			return models.Engine.Close()
+		}),
 	)
 
 	// di service
 	myService.InitService(service)
 
-
 	// Register Handler
-	goodsService.RegisterGoodsServiceHandler(service.Server(), new(handler.GoodsHandler))
+	goodsService.RegisterGoodsHandler(service.Server(), new(handlers.Goods))
 
-	micro.RegisterSubscriber(topic, service.Server(), new(subscriber.Goods), server.SubscriberQueue("consumer"))
+	micro.RegisterSubscriber(topic, service.Server(), new(subscribers.Goods), server.SubscriberQueue("consumer"))
 
 	service.Init()
 

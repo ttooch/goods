@@ -1,19 +1,19 @@
-package service
+package services
 
 import (
 	"fmt"
 	"github.com/pborman/uuid"
-	"time"
-	goods "github.com/ttooch/proto/goods"
+	goodsServoce "github.com/ttooch/proto/goods"
 	"github.com/ttooch/proto/pubsub"
+	"time"
 )
 
 func GoodsDetail() {
-	req := rpcClient.NewRequest("Goods.Detail", goodsRpc, &goods.Request{
-		BarCode: "111",
+	req := rpcClient.NewRequest("Goods.Detail", goodsRpc, &goodsServoce.DetailRequest{
+		GoodsId: 1,
 	})
 
-	rsp := &goods.Response{}
+	rsp := &goodsServoce.DetailResponse{}
 
 	// Call service
 	if err := rpcClient.Call(ctx, req, rsp); err != nil {
