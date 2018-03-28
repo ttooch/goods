@@ -29,7 +29,7 @@ docker pull ttouch/micro
 ```
 $ docker pull quay.io/coreos/etcd //下载etcd docker镜像
   //docker 启动etcd
-  docker run \    
+  docker run \
     -d  \
     -p 2379:2379 \
     -p 2380:2380 \
