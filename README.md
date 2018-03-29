@@ -10,7 +10,7 @@ This is the Goods service with fqdn go.micro.srv.v1.goods.
 ## Install Micro
 
 ```shell
-go get -u github.com/ttouch/micro
+go get -u github.com/micro/micro
 ```
 
 Or via Docker
