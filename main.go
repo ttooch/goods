@@ -1,25 +1,16 @@
 package main
 
 import (
-	//"github.com/micro/go-micro"
-	//"github.com/micro/go-micro/server"
+	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/server"
 	_ "github.com/micro/go-plugins/broker/nsq"
 	_ "github.com/micro/go-plugins/registry/etcd"
-	//"github.com/ttooch/goods/handlers"
-	//"github.com/ttooch/goods/models"
-	//myService "github.com/ttooch/goods/services"
-	//"github.com/ttooch/goods/subscribers"
-	//goodsService "github.com/ttooch/proto/goods"
-	//"log"
-	//"time"
-	//"github.com/ttooch/goods/elastics"
-	"github.com/ttooch/goods/elastics"
-	//"fmt"
-	//"encoding/json"
-	//"github.com/ttooch/goods/models"
-	//"gopkg.in/olivere/elastic.v5"
-	//"fmt"
-	"fmt"
+	"github.com/ttooch/goods/handlers"
+	myService "github.com/ttooch/goods/services"
+	"github.com/ttooch/goods/subscribers"
+	goodsService "github.com/ttooch/proto/goods"
+	"log"
+	"time"
 )
 
 var (
@@ -28,35 +19,26 @@ var (
 
 func main() {
 
-	//goodsList := elastics.GetGoodsList()
-	//
-	//b,_ := json.Marshal(goodsList)
-	//
-	//fmt.Println(string(b))
+	// New Service
+	service := micro.NewService(
+		micro.Name("go.micro.api.v1.goods"),
+		micro.Version("latest"),
+		micro.RegisterTTL(time.Second*30),
+		micro.RegisterInterval(time.Second*15),
+	)
 
-	//elastics.UpdateGoods("AWJr9TvbpO3ECuIBreLn",&elastics.Goods{
-	//	GoodsBrief:"1111",
-	//})
+	// di service
+	myService.InitService(service)
 
-	goods, _ := elastics.GetGoodsByID("AWJr9TvbpO3ECuIBreLn")
+	// Register Handler
+	goodsService.RegisterGoodsHandler(service.Server(), new(handlers.Goods))
 
-	fmt.Printf("%+v", goods.Snapshot)
+	micro.RegisterSubscriber(topic, service.Server(), new(subscribers.Goods), server.SubscriberQueue("consumer"))
 
-	goods = new(elastics.Goods)
+	service.Init()
 
-	goods.BarCode = "3333"
-
-	elastics.UpdateGoodsById(goods)
-
-	//query := elastic.NewBoolQuery()
-	//
-	//query.Must(elastic.NewTermQuery("goods_id", 1))
-	//
-	//goods, _ := elastics.GetGoodsList(query,map[string]bool{"goods_id":true})
-	//
-	//fmt.Println(goods)
-	//
-	//b,_ := json.Marshal(goods)
-	//
-	//fmt.Println(string(b))
+	// Run service
+	if err := service.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
