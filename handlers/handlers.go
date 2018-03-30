@@ -7,10 +7,9 @@ import (
 
 const (
 	SUCCESS_STAUTS = 1
-	ERROR_STAUTS = 0
-	SUCCESS_MSG = "success"
+	ERROR_STAUTS   = 0
+	SUCCESS_MSG    = "success"
 )
-
 
 func DeepCopy(model interface{}, rpc interface{}) {
 

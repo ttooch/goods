@@ -42,26 +42,20 @@ type ElasticSearch interface {
 	GetSnapshot() interface{}
 }
 
-func CreateIndex(search ElasticSearch) {
+func CreateIndex(search ElasticSearch) error {
 	ctx := context.Background()
 
 	_, err := ElaClient.CreateIndex(search.Index()).BodyJson(search.Mapping()).Do(ctx)
 
-	if err != nil {
-		// Handle error
-		panic(err)
-	}
+	return err
 }
 
-func DelIndex(search ElasticSearch) {
+func DelIndex(search ElasticSearch) error {
 	ctx := context.Background()
 
 	_, err := ElaClient.DeleteIndex(search.Index()).Do(ctx)
 
-	if err != nil {
-		// Handle error
-		panic(err)
-	}
+	return err
 }
 
 func AddDocument(search ElasticSearch) error {
