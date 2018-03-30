@@ -71,7 +71,7 @@ func (g *Goods) Update(ctx context.Context, req *goodsService.UpdateRequest, rsp
 
 	session := models.Engine.Where("goods_id = ?", req.GoodsId)
 
-	_, err := models.UpdateGoods(session, goods)
+	err := models.UpdateGoods(goods, session)
 
 	if err != nil {
 		rsp.Status = ERROR_STAUTS
@@ -113,7 +113,7 @@ func (g *Goods) Add(ctx context.Context, req *goodsService.AddRequest, rsp *good
 
 func (g *Goods) Delete(ctx context.Context, req *goodsService.DeleteRequest, rsp *goodsService.DeleteResponse) error {
 
-	_,err :=models.DelGoodsById(req.GoodsId)
+	err := models.DelGoodsById(req.GoodsId)
 
 	if err != nil {
 		rsp.Status = ERROR_STAUTS
