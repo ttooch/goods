@@ -20,36 +20,38 @@ func (m {{Mapper .Name}}) TableName() string {
 func (m *{{Mapper .Name}}) AfterFind(){
 }
 
+func Add{{Mapper .Name}}(model *{{Mapper .Name}}) error {
+	return AddModel(model)
+}
+
+func Del{{Mapper .Name}}ById(id int64, safe ...bool) error {
+	var model {{Mapper .Name}}
+	return DelModel(model, Engine.ID(id), safe...)
+}
+
+func Del{{Mapper .Name}}(session *xorm.Session, safe ...bool) error {
+	var model {{Mapper .Name}}
+	return DelModel(model, session, safe...)
+}
+
+func Update{{Mapper .Name}}ById(id int64, model *{{Mapper .Name}}) error {
+	return UpdateModel(model, Engine.ID(id))
+}
+
+func Update{{Mapper .Name}}(model *{{Mapper .Name}}, session *xorm.Session) error {
+	return UpdateModel(model, session)
+}
+
 func Get{{Mapper .Name}}ByID(id int64) (*{{Mapper .Name}}, error) {
-    model := new({{Mapper .Name}})
+	model := new({{Mapper .Name}})
 
-    has, err := Engine.Id(id).Get(model)
-
-    model.AfterFind()
-
-    if err != nil {
-        return model, err
-    } else if !has {
-        return model, ErrNotExist
-    }
-
-    return model, nil
+	return model, GetModel(model, Engine.ID(id))
 }
 
 func Get{{Mapper .Name}}(session *xorm.Session) (*{{Mapper .Name}}, error) {
 	model := new({{Mapper .Name}})
 
-	has, err := session.Get(model)
-
-	model.AfterFind()
-
-	if err != nil {
-		return model, err
-	} else if !has {
-		return model, ErrNotExist
-	}
-
-	return model, nil
+	return model, GetModel(model, session)
 }
 
 func Get{{Mapper .Name}}List(session *xorm.Session, limit ...int) (models []*{{Mapper .Name}}, err error) {
@@ -90,71 +92,6 @@ func Get{{Mapper .Name}}ListForPage(session *xorm.Session, page int, pageSize in
 	}
 
 	return models, nil
-}
-
-func Update{{Mapper .Name}}ById(id int64, model *{{Mapper .Name}}) (bool, error) {
-	_, err := Engine.Id(id).Update(model)
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, err
-	}
-
-}
-
-func Update{{Mapper .Name}}(session *xorm.Session, model *{{Mapper .Name}}) (bool, error) {
-	_, err := session.Update(model)
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, err
-	}
-
-}
-
-func Add{{Mapper .Name}}(model *{{Mapper .Name}}) error {
-	effect, err := Engine.InsertOne(model)
-
-	if err != nil {
-		return err
-	} else if effect == 0 {
-		return ErrInsert
-	}
-	return nil
-}
-
-func Del{{Mapper .Name}}ById(id int64, safe ...bool) (deleted bool, err error) {
-	var model {{Mapper .Name}}
-
-	if len(safe) > 0 && safe[0] == false {
-		_, err = Engine.ID(id).Unscoped().Delete(&model)
-	} else {
-		_, err = Engine.ID(id).Delete(&model)
-	}
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, nil
-	}
-}
-
-func Del{{Mapper .Name}}(session xorm.Session, safe ...bool) (deleted bool, err error) {
-	var model {{Mapper .Name}}
-
-	if len(safe) > 0 && safe[0] == false {
-		_, err = session.Unscoped().Delete(&model)
-	} else {
-		_, err = session.Delete(&model)
-	}
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, err
-	}
 }
 
 {{end}}

@@ -29,7 +29,7 @@ type Goods struct {
 	ViewNum        int       `json:"view_num" xorm:"not null default 0 INT(10)"`
 	UpdatedAt      int       `json:"updated_at" xorm:"not null default 0 INT(11)"`
 	CreatedAt      int       `json:"created_at" xorm:"not null default 0 INT(11)"`
-	DeletedAt      time.Time `json:"deleted_at" xorm:"not null DATETIME deleted"`
+	DeletedAt      time.Time `json:"deleted_at" xorm:"not null DATETIME"`
 }
 
 func (m Goods) TableName() string {
@@ -39,36 +39,38 @@ func (m Goods) TableName() string {
 func (m *Goods) AfterFind() {
 }
 
+func AddGoods(model *Goods) error {
+	return AddModel(model)
+}
+
+func DelGoodsById(id int64, safe ...bool) error {
+	var model Goods
+	return DelModel(model, Engine.ID(id), safe...)
+}
+
+func DelGoods(session *xorm.Session, safe ...bool) error {
+	var model Goods
+	return DelModel(model, session, safe...)
+}
+
+func UpdateGoodsById(id int64, model *Goods) error {
+	return UpdateModel(model, Engine.ID(id))
+}
+
+func UpdateGoods(model *Goods, session *xorm.Session) error {
+	return UpdateModel(model, session)
+}
+
 func GetGoodsByID(id int64) (*Goods, error) {
 	model := new(Goods)
 
-	has, err := Engine.Id(id).Get(model)
-
-	model.AfterFind()
-
-	if err != nil {
-		return model, err
-	} else if !has {
-		return model, ErrNotExist
-	}
-
-	return model, nil
+	return model, GetModel(model, Engine.ID(id))
 }
 
 func GetGoods(session *xorm.Session) (*Goods, error) {
 	model := new(Goods)
 
-	has, err := session.Get(model)
-
-	model.AfterFind()
-
-	if err != nil {
-		return model, err
-	} else if !has {
-		return model, ErrNotExist
-	}
-
-	return model, nil
+	return model, GetModel(model, session)
 }
 
 func GetGoodsList(session *xorm.Session, limit ...int) (models []*Goods, err error) {
@@ -109,69 +111,4 @@ func GetGoodsListForPage(session *xorm.Session, page int, pageSize int) ([]*Good
 	}
 
 	return models, nil
-}
-
-func UpdateGoodsById(id int64, model *Goods) (bool, error) {
-	_, err := Engine.Id(id).Update(model)
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, err
-	}
-
-}
-
-func UpdateGoods(session *xorm.Session, model *Goods) (bool, error) {
-	_, err := session.Update(model)
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, err
-	}
-
-}
-
-func AddGoods(model *Goods) error {
-	effect, err := Engine.InsertOne(model)
-
-	if err != nil {
-		return err
-	} else if effect == 0 {
-		return ErrInsert
-	}
-	return nil
-}
-
-func DelGoodsById(id int64, safe ...bool) (deleted bool, err error) {
-	var model Goods
-
-	if len(safe) > 0 && safe[0] == false {
-		_, err = Engine.ID(id).Unscoped().Delete(&model)
-	} else {
-		_, err = Engine.ID(id).Delete(&model)
-	}
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, nil
-	}
-}
-
-func DelGoods(session xorm.Session, safe ...bool) (deleted bool, err error) {
-	var model Goods
-
-	if len(safe) > 0 && safe[0] == false {
-		_, err = session.Unscoped().Delete(&model)
-	} else {
-		_, err = session.Delete(&model)
-	}
-
-	if err != nil {
-		return false, err
-	} else {
-		return true, err
-	}
 }
