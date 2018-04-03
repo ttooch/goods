@@ -129,3 +129,13 @@ func (g *Goods) Delete(ctx context.Context, req *goodsService.DeleteRequest, rsp
 
 	return nil
 }
+func (g *Goods) Info(ctx context.Context, req *goodsService.InfoRequest, rsp *goodsService.InfoResponse) error {
+
+	rsp.Status = 1
+
+	rsp.Msg = "成功"
+
+	rsp.Data = new(goodsService.EmptyObject)
+
+	return nil
+}

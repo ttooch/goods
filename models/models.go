@@ -47,7 +47,7 @@ func GetModel(model Model, session *xorm.Session) error {
 	return nil
 }
 
-func AddModel(model *Goods) error {
+func AddModel(model *Model) error {
 	effect, err := Engine.InsertOne(model)
 
 	if err != nil {
@@ -58,7 +58,7 @@ func AddModel(model *Goods) error {
 	return nil
 }
 
-func UpdateModel(model *Goods, session *xorm.Session) error {
+func UpdateModel(model *Model, session *xorm.Session) error {
 	_, err := session.Update(model)
 
 	if err != nil {
@@ -68,7 +68,7 @@ func UpdateModel(model *Goods, session *xorm.Session) error {
 	}
 }
 
-func DelModel(model Goods, session *xorm.Session, safe ...bool) (err error) {
+func DelModel(model Model, session *xorm.Session, safe ...bool) (err error) {
 
 	if len(safe) > 0 && safe[0] == false {
 		_, err = session.Unscoped().Delete(&model)
