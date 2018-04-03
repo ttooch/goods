@@ -25,12 +25,12 @@ func Add{{Mapper .Name}}(model *{{Mapper .Name}}) error {
 }
 
 func Del{{Mapper .Name}}ById(id int64, safe ...bool) error {
-	var model {{Mapper .Name}}
+	model := new({{Mapper .Name}})
 	return DelModel(model, Engine.ID(id), safe...)
 }
 
 func Del{{Mapper .Name}}(session *xorm.Session, safe ...bool) error {
-	var model {{Mapper .Name}}
+	model := new({{Mapper .Name}})
 	return DelModel(model, session, safe...)
 }
 

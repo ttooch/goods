@@ -44,12 +44,12 @@ func AddGoods(model *Goods) error {
 }
 
 func DelGoodsById(id int64, safe ...bool) error {
-	var model Goods
+	model := new(Goods)
 	return DelModel(model, Engine.ID(id), safe...)
 }
 
 func DelGoods(session *xorm.Session, safe ...bool) error {
-	var model Goods
+	model := new(Goods)
 	return DelModel(model, session, safe...)
 }
 

@@ -47,7 +47,7 @@ func GetModel(model Model, session *xorm.Session) error {
 	return nil
 }
 
-func AddModel(model *Model) error {
+func AddModel(model Model) error {
 	effect, err := Engine.InsertOne(model)
 
 	if err != nil {
@@ -58,7 +58,7 @@ func AddModel(model *Model) error {
 	return nil
 }
 
-func UpdateModel(model *Model, session *xorm.Session) error {
+func UpdateModel(model Model, session *xorm.Session) error {
 	_, err := session.Update(model)
 
 	if err != nil {
